@@ -10,6 +10,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # SECCIÓN AGREGADA PARA CORREGIR EL ERROR 403
+    permissions:
+      contents: write
+      packages: write
     
     steps:
     # Checkout del código
