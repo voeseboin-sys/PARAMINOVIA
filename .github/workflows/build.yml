@@ -1,0 +1,111 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Checkout del código
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    # Configurar Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+    
+    # Instalar dependencias
+    - name: Install dependencies
+      run: npm install
+    
+    # Configurar JDK 17 (requerido por Android Gradle Plugin 8.0+)
+    - name: Setup JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    
+    # Configurar Android SDK
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+    
+    # Instalar dependencias adicionales de Android
+    - name: Install Android dependencies
+      run: |
+        sdkmanager "platforms;android-33"
+        sdkmanager "build-tools;33.0.0"
+        sdkmanager "platform-tools"
+    
+    # Añadir plataforma Android con Capacitor
+    - name: Add Android platform
+      run: npx cap add android
+    
+    # Sincronizar assets con Capacitor
+    - name: Sync Capacitor
+      run: npx cap sync
+    
+    # Dar permisos de ejecución a gradlew
+    - name: Grant execute permission for gradlew
+      run: chmod +x android/gradlew
+    
+    # Construir APK de debug
+    - name: Build Debug APK
+      run: |
+        cd android
+        ./gradlew assembleDebug --stacktrace
+    
+    # Verificar que el APK se generó
+    - name: Verify APK exists
+      run: |
+        ls -la android/app/build/outputs/apk/debug/
+    
+    # Subir APK como artefacto
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Nuestra-Historia-Debug-APK
+        path: android/app/build/outputs/apk/debug/app-debug.apk
+        retention-days: 30
+    
+    # Crear release (solo en pushes a main)
+    - name: Create Release
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ github.run_number }}
+        name: Release v${{ github.run_number }}
+        body: |
+          ## Nuestra Historia - Versión ${{ github.run_number }}
+          
+          Una tarjeta de amor interactiva para Android.
+          
+          ### Características:
+          - Animación de corazón latiente
+          - Transformación en semilla y crecimiento de árbol
+          - Poema romántico con tipografía handwritten
+          - Contador de tiempo en tiempo real
+          - Lluvia de corazones animada
+          - Música de fondo
+          
+          ### Fecha de compilación: ${{ github.event.head_commit.timestamp }}
+        files: android/app/build/outputs/apk/debug/app-debug.apk
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    # Resumen del build
+    - name: Build Summary
+      run: |
+        echo "✅ Build completado exitosamente"
+        echo "📱 APK generado: android/app/build/outputs/apk/debug/app-debug.apk"
+        echo "📦 Artefacto subido: Nuestra-Historia-Debug-APK"

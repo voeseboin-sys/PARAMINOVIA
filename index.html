@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ff9a9e">
+    <meta name="description" content="Una tarjeta de amor interactiva para el amor de mi vida">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="assets/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <title>Nuestra Historia</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Audio de fondo -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="assets/MUSICA.MP3" type="audio/mpeg">
+        <source src="assets/MUSICA.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Contenedor principal -->
+    <div class="app-container">
+        
+        <!-- Escena 1: El Corazón Inicial -->
+        <div class="scene scene-heart" id="sceneHeart">
+            <div class="heart-container">
+                <button class="heart-button" id="heartButton" aria-label="Click aquí">
+                    <svg class="heart-shape" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path class="heart-path" d="M50,30 C35,10 5,25 5,50 C5,75 50,95 50,95 C50,95 95,75 95,50 C95,25 65,10 50,30 Z"/>
+                    </svg>
+                    <span class="heart-text">Click aquí</span>
+                </button>
+            </div>
+            <p class="hint-text">Toca el corazón para comenzar</p>
+        </div>
+
+        <!-- Escena 2: La Semilla -->
+        <div class="scene scene-seed" id="sceneSeed">
+            <div class="seed" id="seed"></div>
+            <div class="ground"></div>
+        </div>
+
+        <!-- Escena 3: El Árbol -->
+        <div class="scene scene-tree" id="sceneTree">
+            <div class="tree-container" id="treeContainer">
+                <!-- Tronco -->
+                <svg class="tree-svg" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Tronco principal con curva orgánica -->
+                    <path class="trunk" d="M200,500 Q200,450 195,400 Q190,350 200,300 Q210,250 200,200 Q195,150 200,100" 
+                          fill="none" stroke="#8B4513" stroke-width="12" stroke-linecap="round"/>
+                    
+                    <!-- Ramas principales -->
+                    <path class="branch branch-left-1" d="M200,350 Q150,320 100,300" 
+                          fill="none" stroke="#8B4513" stroke-width="6" stroke-linecap="round"/>
+                    <path class="branch branch-right-1" d="M200,320 Q250,290 300,270" 
+                          fill="none" stroke="#8B4513" stroke-width="6" stroke-linecap="round"/>
+                    <path class="branch branch-left-2" d="M200,250 Q160,220 120,200" 
+                          fill="none" stroke="#8B4513" stroke-width="5" stroke-linecap="round"/>
+                    <path class="branch branch-right-2" d="M200,220 Q240,190 280,170" 
+                          fill="none" stroke="#8B4513" stroke-width="5" stroke-linecap="round"/>
+                    <path class="branch branch-left-3" d="M200,150 Q170,130 140,110" 
+                          fill="none" stroke="#8B4513" stroke-width="4" stroke-linecap="round"/>
+                    <path class="branch branch-right-3" d="M200,130 Q230,110 260,90" 
+                          fill="none" stroke="#8B4513" stroke-width="4" stroke-linecap="round"/>
+                    <path class="branch branch-top" d="M200,100 Q200,70 200,40" 
+                          fill="none" stroke="#8B4513" stroke-width="4" stroke-linecap="round"/>
+                    
+                    <!-- Ramas pequeñas adicionales -->
+                    <path class="branch branch-small-1" d="M100,300 Q80,280 70,260" 
+                          fill="none" stroke="#8B4513" stroke-width="3" stroke-linecap="round"/>
+                    <path class="branch branch-small-2" d="M300,270 Q320,250 330,230" 
+                          fill="none" stroke="#8B4513" stroke-width="3" stroke-linecap="round"/>
+                    <path class="branch branch-small-3" d="M120,200 Q100,180 90,160" 
+                          fill="none" stroke="#8B4513" stroke-width="3" stroke-linecap="round"/>
+                    <path class="branch branch-small-4" d="M280,170 Q300,150 310,130" 
+                          fill="none" stroke="#8B4513" stroke-width="3" stroke-linecap="round"/>
+                    <path class="branch branch-small-5" d="M140,110 Q120,90 110,70" 
+                          fill="none" stroke="#8B4513" stroke-width="2" stroke-linecap="round"/>
+                    <path class="branch branch-small-6" d="M260,90 Q280,70 290,50" 
+                          fill="none" stroke="#8B4513" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                
+                <!-- Contenedor de hojas (se generarán con JS) -->
+                <div class="leaves-container" id="leavesContainer"></div>
+            </div>
+        </div>
+
+        <!-- Escena 4: Contenido del Mensaje -->
+        <div class="scene scene-message" id="sceneMessage">
+            <div class="message-container">
+                <h1 class="message-title">Para el amor de mi vida</h1>
+                
+                <div class="poem-container">
+                    <p class="poem-line">Si pudiera elegir un lugar seguro,</p>
+                    <p class="poem-line">sería a tu lado.</p>
+                    <p class="poem-line">Cuanto más tiempo estoy contigo</p>
+                    <p class="poem-line">más te amo.</p>
+                    <p class="poem-line heart-inline">❤️</p>
+                    <p class="poem-line">Eres y serás siempre</p>
+                    <p class="poem-line">mi pequeña hermosa</p>
+                    <p class="poem-line heart-inline">❤️</p>
+                    <p class="poem-line highlight">Te amooo mucho mí amor</p>
+                    <p class="poem-line heart-inline">❤️</p>
+                </div>
+                
+                <div class="counter-section">
+                    <p class="counter-label">mi amor por ti empezó hace:</p>
+                    <div class="counter" id="counter">
+                        <div class="counter-item">
+                            <span class="counter-number" id="days">000</span>
+                            <span class="counter-unit">días</span>
+                        </div>
+                        <div class="counter-item">
+                            <span class="counter-number" id="hours">00</span>
+                            <span class="counter-unit">horas</span>
+                        </div>
+                        <div class="counter-item">
+                            <span class="counter-number" id="minutes">00</span>
+                            <span class="counter-unit">minutos</span>
+                        </div>
+                        <div class="counter-item">
+                            <span class="counter-number" id="seconds">00</span>
+                            <span class="counter-unit">segundos</span>
+                        </div>
+                    </div>
+                    <p class="start-date">Desde el 9 de Agosto de 2024</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lluvia de corazones (capa superpuesta) -->
+        <div class="hearts-rain" id="heartsRain"></div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "name": "nuestra-historia",
+  "version": "1.0.0",
+  "description": "Una tarjeta de amor interactiva para el amor de mi vida",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build step required for static site'",
+    "cap:add:android": "npx cap add android",
+    "cap:sync": "npx cap sync",
+    "cap:open": "npx cap open android",
+    "cap:build": "npx cap build android"
+  },
+  "keywords": [
+    "love",
+    "romantic",
+    "interactive",
+    "pwa",
+    "capacitor",
+    "android"
+  ],
+  "author": "Tu Amor",
+  "license": "MIT",
+  "devDependencies": {
+    "@capacitor/cli": "^5.7.0",
+    "@capacitor/android": "^5.7.0"
+  },
+  "dependencies": {
+    "@capacitor/core": "^5.7.0",
+    "@capacitor/splash-screen": "^5.2.0"
+  }
+}
