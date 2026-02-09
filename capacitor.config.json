@@ -1,7 +1,7 @@
 {
   "appId": "com.miamor.app",
   "appName": "Nuestra Historia",
-  "webDir": ".",
+  "webDir": "www",
   "bundledWebRuntime": false,
   "server": {
     "androidScheme": "https"
